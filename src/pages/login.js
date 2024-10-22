@@ -4,6 +4,7 @@ import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'fir
 import { useNavigate } from 'react-router-dom';
 
 import Footer from '../components/footer';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,12 +41,10 @@ const Login = () => {
                 return; // Exit the function if the email is not verified
             }
 
-            // console.log(user);
-
             // Save user info or token to local storage for session management
             localStorage.setItem('authToken', user.accessToken);
             localStorage.setItem('uid', user.uid);
-            
+
             // Provide success feedback
             setSnackbarMessage('Login successful!');
             setSnackbarSeverity('success');
@@ -93,8 +92,22 @@ const Login = () => {
     return (
         <Container maxWidth="xs">
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100vh">
+                {/* Image added here */}
+                <img 
+                src="/cabshare.jpeg" 
+                alt="Cab Sharing" 
+                style={{
+                    width: '100%',         // Full width of the container
+                    maxWidth: '300px',      // Maximum width of the image
+                    marginBottom: '20px',   // Margin at the bottom
+
+                    borderRadius: '50%', // Curve on the bottom right
+                    overflow: 'hidden'      // Ensure the overflow is hidden for smooth curves
+                }} 
+            />
+            
                 <Typography variant="h4" component="h1" gutterBottom>
-                    Login
+                    Welcome
                 </Typography>
                 <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                     <TextField
