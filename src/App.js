@@ -1,24 +1,35 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Container } from '@mui/material';
 import './App.css';
+import Login from './pages/login';
+import Homepage from './pages/home';
+
+import Register from './pages/register';
+const isAuthenticated = () => {
+  return !!localStorage.getItem('authToken');
+};
+
+const PrivateRoute = ({ element: Component }) => {
+  return isAuthenticated() ? Component : <Navigate to="/login" />;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Container>
+        <Routes>
+          <Route path="/" element={isAuthenticated() ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<PrivateRoute element={<Homepage />} />} />
+          <Route path="/register" element={<Register />}  />
+
+        </Routes>
+      </Container>
+    </Router>
+
+
   );
 }
 
