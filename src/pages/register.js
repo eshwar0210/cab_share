@@ -20,7 +20,7 @@ const Register = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
-   
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,7 +39,7 @@ const Register = () => {
             const userData = {
                 email,
                 name,
-                password,   
+                password,
             };
 
             // Create a FormData object to handle file uploads
@@ -70,11 +70,11 @@ const Register = () => {
 
                 // Reset the form after successful registration
                 setEmail('');
-               
+
                 setPassword('');
                 setName('');
                 setConfirmPassword('');
-               
+
                 setProfilePhoto(null);
                 setProfilePhotoName('');
                 setTimeout(() => navigate('/login'), 2000); // Redirect to login after 2 seconds
@@ -82,6 +82,7 @@ const Register = () => {
                 throw new Error(data.error || 'Registration failed');
             }
         } catch (err) {
+            console.error(err);
             setSnackbarMessage(err.message);
             setSnackbarSeverity('error');
             setSnackbarOpen(true);
@@ -102,109 +103,109 @@ const Register = () => {
     return (
 
         <Layout>
-        <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                maxWidth: '500px',
-                margin: 'auto',
-                marginTop: 8,
-            }}
-            mb={{ xs: 4, sm: 6 }}
-        >
-            <Typography variant="h4" component="h1" align="center">Join the Community</Typography>
-
-            <TextField
-                label="Email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-            <TextField
-                label="Name"
-                type="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-            />
-            
-            <TextField
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-            <TextField
-                label="Confirm Password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-            />
-            
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left', marginBottom: 2 }}>
-                <Typography variant="body1" component="label" sx={{ display: 'block', marginBottom: '8px' }}>
-                    Upload Profile Photo (Optional)
-                </Typography>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                    id="profile-photo-upload"
-                />
-                <label htmlFor="profile-photo-upload">
-                    <Box
-                        sx={{
-                            border: '2px dashed #3f51b5',
-                            padding: '20px',
-                            borderRadius: '4px',
-                            backgroundColor: '#f0f0f0',
-                            cursor: 'pointer',
-                            textAlign: 'center',
-                            width: '100%',
-                            maxWidth: '320px',
-                            '&:hover': { backgroundColor: '#e0e0e0' },
-                        }}
-                    >
-                        Click or drag to upload
-                    </Box>
-                </label>
-                {profilePhotoName && <Typography variant="caption">{profilePhotoName}</Typography>}
-                <Typography variant="caption" color="textSecondary">
-                    Supported formats: .jpg, .png, .jpeg
-                </Typography>
-            </Box>
-
-            <Button type="submit" variant="contained">Register</Button>
-
-            <Box mt={2}>
-                <Typography variant="body2" align="center">
-                    Already have an account?{' '}
-                    <Link href="/login" color="primary">
-                        Login here
-                    </Link>
-                </Typography>
-            </Box>
-
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            <Box
+                component="form"
+                onSubmit={handleSubmit}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    maxWidth: '500px',
+                    margin: 'auto',
+                    marginTop: 8,
+                }}
+                mb={{ xs: 4, sm: 6 }}
             >
-                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
-            
-        </Box>
+                <Typography variant="h4" component="h1" align="center">Join the Community</Typography>
+
+                <TextField
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <TextField
+                    label="Name"
+                    type="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+
+                <TextField
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <TextField
+                    label="Confirm Password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left', marginBottom: 2 }}>
+                    <Typography variant="body1" component="label" sx={{ display: 'block', marginBottom: '8px' }}>
+                        Upload Profile Photo (Optional)
+                    </Typography>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                        id="profile-photo-upload"
+                    />
+                    <label htmlFor="profile-photo-upload">
+                        <Box
+                            sx={{
+                                border: '2px dashed #3f51b5',
+                                padding: '20px',
+                                borderRadius: '4px',
+                                backgroundColor: '#f0f0f0',
+                                cursor: 'pointer',
+                                textAlign: 'center',
+                                width: '100%',
+                                maxWidth: '320px',
+                                '&:hover': { backgroundColor: '#e0e0e0' },
+                            }}
+                        >
+                            Click or drag to upload
+                        </Box>
+                    </label>
+                    {profilePhotoName && <Typography variant="caption">{profilePhotoName}</Typography>}
+                    <Typography variant="caption" color="textSecondary">
+                        Supported formats: .jpg, .png, .jpeg
+                    </Typography>
+                </Box>
+
+                <Button type="submit" variant="contained">Register</Button>
+
+                <Box mt={2}>
+                    <Typography variant="body2" align="center">
+                        Already have an account?{' '}
+                        <Link href="/login" color="primary">
+                            Login here
+                        </Link>
+                    </Typography>
+                </Box>
+
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+                        {snackbarMessage}
+                    </Alert>
+                </Snackbar>
+
+            </Box>
         </Layout>
 
 
