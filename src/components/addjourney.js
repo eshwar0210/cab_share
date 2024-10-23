@@ -122,7 +122,7 @@ const JourneyForm = () => {
     };
 
     return (
-        <Box sx={{ padding: { xs: 2, sm: 4 }, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header />
             <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: 3 }}>
                 <Box>
@@ -253,13 +253,13 @@ const JourneyForm = () => {
                             }}
                         >
                             <span style={{ marginRight: '8px' }}>📅</span> {/* Example icon */}
-                            Save Your Journey
+                            Save Journey
                         </Button>
 
                     </Grid>
                 </Grid>
             </form>
-            <Footer sx={{ mt: 'auto' }} />
+            <Footer sx={{ mt: 'auto' ,mb:"0" }} />
             <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={6000}

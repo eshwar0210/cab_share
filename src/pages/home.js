@@ -5,7 +5,7 @@ import { Box, Grid, Card, CardContent, Typography, CardActionArea } from '@mui/m
 import LuggageIcon from '@mui/icons-material/Luggage';
 import EditIcon from '@mui/icons-material/Edit';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import PeopleIcon from '@mui/icons-material/People';
 import { useNavigate } from 'react-router';
 const Homepage = () => {
 
@@ -29,8 +29,8 @@ const Homepage = () => {
             <Card>
               <CardActionArea onClick={handleaddjourney}>
                 <CardContent sx={{ textAlign: 'center' }}>
-                  <LuggageIcon sx={{ fontSize: 60 }} />
-                  <Typography variant="h6" mt={2}>
+                  <LuggageIcon sx={{ fontSize: 60 , color:"primary.main" }} />
+                  <Typography variant="h6" mt={2} sx = {{color:"primary.main"}}>
                     Add Journey
                   </Typography>
                 </CardContent>
@@ -42,8 +42,8 @@ const Homepage = () => {
             <Card>
               <CardActionArea onClick={handleeditjourney}>
                 <CardContent sx={{ textAlign: 'center' }}>
-                  <EditIcon sx={{ fontSize: 60 }} />
-                  <Typography variant="h6" mt={2}>
+                  <EditIcon sx={{ fontSize: 60 , color:"primary.main" }}  />
+                  <Typography variant="h6" mt={2} sx = {{color:"primary.main"}}>
                     Edit Journey
                   </Typography>
                 </CardContent>
@@ -55,8 +55,8 @@ const Homepage = () => {
             <Card>
               <CardActionArea onClick={handlecalendarclick}>
                 <CardContent sx={{ textAlign: 'center' }}>
-                  <CalendarTodayIcon sx={{ fontSize: 60 }} />
-                  <Typography variant="h6" mt={2}>
+                  <CalendarTodayIcon sx={{ fontSize: 60 , color:"primary.main" }} />
+                  <Typography variant="h6" mt={2} sx = {{color:"primary.main"}}>
                     Browse Calendar
                   </Typography>
                 </CardContent>
@@ -67,9 +67,9 @@ const Homepage = () => {
           <Grid item xs={6} sm={6} md={3}>
             <Card>
               <CardActionArea  onClick={() => navigate('/cab-drivers')}>
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <DirectionsCarIcon sx={{ fontSize: 60 }} />
-                  <Typography variant="h6" mt={2}>
+                <CardContent sx={{ textAlign: 'center'  }}>
+                  <PeopleIcon sx={{ fontSize: 60 , color:"primary.main" }}  />
+                  <Typography variant="h6" mt={2} sx = {{color:"primary.main"}}>
                     Cab Drivers
                   </Typography>
                 </CardContent>

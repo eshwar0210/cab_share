@@ -48,7 +48,7 @@ const CabDrivers = () => {
         <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header />
             <Box sx={{ padding: 4 }}>
-                <Typography variant="h4" gutterBottom>
+                <Typography variant="h4" gutterBottom sx ={{color : "primary.main"}}>
                     Cab Drivers
                 </Typography>
                 <Grid container spacing={4}>

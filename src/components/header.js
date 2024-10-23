@@ -12,11 +12,12 @@ import {
     DialogContent,
     DialogActions,
     Button,
+    ButtonBase
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import DriveEtaIcon from '@mui/icons-material/DriveEta';
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [name, setName] = useState('');
@@ -92,20 +93,24 @@ const Header = () => {
                 }}
             >
                 {/* Logo/Brand with Hover Effect */}
-                <Typography
-                    variant="h6"
-                    onClick={() => navigate('/')}
-                    sx={{
-                        cursor: 'pointer',
-                        transition: 'color 0.3s',
-                        '&:hover': {
-                            color: 'blue',
-                        },
-                        fontFamily : 'cursive'
-                    }}
-                >
-                    Cab Share
-                </Typography>
+                <ButtonBase onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', textAlign: 'left' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}>
+        <DriveEtaIcon sx={{ fontSize: '1.8rem', color: 'primary.main', transition: 'color 0.3s' }} />
+        <Typography
+            variant="h6"
+            sx={{
+                transition: 'color 0.3s',
+                '&:hover': {
+                    color: 'black',
+                },
+                fontFamily: 'cursive',
+                 color: 'primary.main'
+            }}
+        >
+            Cab Share
+        </Typography>
+    </Box>
+</ButtonBase>
 
                 {/* Account Circle Icon for Profile/Logout */}
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

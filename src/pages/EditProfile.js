@@ -32,6 +32,8 @@ const EditProfile = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+
     
 
     // Handling image selection
@@ -52,7 +54,7 @@ const EditProfile = () => {
     // Handling profile picture upload
     const handleUpload = async () => {
         if (!selectedImage) return;
-
+        setIsUploading(true);
         const formData = new FormData();
         formData.append('profilePhoto', selectedImage);
         formData.append('currentProfilePhotoUrl', localStorage.getItem('profile'));
@@ -80,6 +82,7 @@ const EditProfile = () => {
         } catch (error) {
             console.error('Error uploading profile picture:', error);
         }
+        setIsUploading(false);
     };
 
     
@@ -210,7 +213,7 @@ const EditProfile = () => {
                 </Box>
 
                 {selectedImage && (
-                    <Button variant="contained" color="primary" onClick={handleUpload}>
+                    <Button variant="contained" color="primary"  disabled={isUploading} onClick={handleUpload}>
                         Upload Image
                     </Button>
                 )}

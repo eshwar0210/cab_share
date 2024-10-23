@@ -57,7 +57,7 @@ const BrowseCalendar = () => {
         <Box display="flex" flexDirection="column" minHeight="100vh" alignItems="center">
             <Header />
             <Box flexGrow={1} display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={4} width="100%">
-                <Typography variant="h4" align="center" gutterBottom>
+                <Typography variant="h4" align="center"  sx ={{ color : "primary.main"}} gutterBottom>
                     Events
                 </Typography>
                 {/* Calendar Section */}

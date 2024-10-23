@@ -31,14 +31,14 @@ const Footer = () => {
             </Typography>
 
             {/* Contact Admin Section */}
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
-                <Typography variant="body2" color="text.secondary">
-                    Contact Admin :
+            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '8px' , flexDirection : "column" }}>
+                <Typography  color="text.secondary" sx = {{fontSize : "40"}} >
+                    Contact Admin
                 </Typography>
                 <Button
                     target="_blank" // Open in a new tab
                     rel="noopener noreferrer" // For security
-                    color="inherit"
+                    sx={{color : "primary.main" , ml : "0" ,mb : "0"}}
                     aria-label="Contact Admin"
                     onClick={() => window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=eshwarrachakonda02@gmail.com`, '_blank')}
                 >
