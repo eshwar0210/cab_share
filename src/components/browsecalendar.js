@@ -60,7 +60,7 @@ const BrowseCalendar = () => {
             <Header />
             <Box flexGrow={1} display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={4} width="100%">
                 <Typography variant="h4" align="center" gutterBottom>
-                    Events Calendar
+                    Events
                 </Typography>
                 {/* Calendar Section */}
                 <Box
@@ -94,50 +94,49 @@ const BrowseCalendar = () => {
 
                 {/* Events Section */}
                 <Box width="100%" padding={2}>
-                    <Typography variant="h5" align="center" gutterBottom>
-                        Journeys
-                    </Typography>
+
                     <Grid container spacing={3} justifyContent="center">
                         {journeys.length > 0 ? (
                             journeys.map((journey) => (
-                                <Grid item key={journey._id}>
-                                    <Card
-                                        variant="outlined"
-                                        style={{
-                                            margin: '10px',
-                                            boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                                            borderRadius: '12px',
-                                            transition: 'transform 0.2s',
-                                        }}
-                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                                    >
-                                        <CardContent>
-                                            <Typography variant="h6" style={{ display: 'flex', alignItems: 'center' }}>
-                                                <span style={{ marginRight: '8px' }}>{journey.fromLocation}</span>
-                                                <span style={{ fontSize: '24px', marginRight: '8px' }}>➡️</span>
-                                                <span>{journey.toLocation}</span>
-                                            </Typography>
-                                            <Typography>Name: {journey.name}</Typography>
-                                            <Typography>Contact: {journey.phoneNumber}</Typography>
+                                <Box>
 
-                                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', color: '#1976d2' }}>
-                                                Date: {journey.date.split('T')[0]}
-                                            </Typography>
-                                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', color: '#1976d2' }}>
-                                                Time: {journey.departureTime}
-                                            </Typography>
-                                            <Typography>Persons: {journey.numberOfPersons}</Typography>
+                                    <Grid item key={journey._id}>
+                                        <Card
+                                            variant="outlined"
+                                            style={{
+                                                margin: '10px',
+                                                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                                                borderRadius: '12px',
+                                                transition: 'transform 0.2s',
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                        >
+                                            <CardContent>
+                                                <Typography variant="h6" style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <span style={{ marginRight: '8px' }}>{journey.fromLocation}</span>
+                                                    <span style={{ fontSize: '24px', marginRight: '8px' }}>➡️</span>
+                                                    <span>{journey.toLocation}</span>
+                                                </Typography>
+                                                <Typography>Name: {journey.name}</Typography>
+                                                <Typography>Contact: {journey.phoneNumber}</Typography>
 
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
+                                                <Typography variant="subtitle1" style={{ fontWeight: 'bold', color: '#1976d2' }}>
+                                                    Date: {journey.date.split('T')[0]}
+                                                </Typography>
+                                                <Typography variant="subtitle1" style={{ fontWeight: 'bold', color: '#1976d2' }}>
+                                                    Time: {journey.departureTime}
+                                                </Typography>
+                                                <Typography>Persons: {journey.numberOfPersons}</Typography>
+
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                </Box>
                             ))
                         ) : (
                             <Grid item xs={12}>
-                                <Typography variant="h6" align="center" style={{ fontSize: '1.5rem', marginTop: '20px' }}>
-                                    No journeys found for this date.
-                                </Typography>
+                        
                             </Grid>
                         )}
                     </Grid>
