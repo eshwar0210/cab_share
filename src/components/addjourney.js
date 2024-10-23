@@ -5,6 +5,7 @@ import Header from './header';
 import Footer from './footer';
 import axios from 'axios';
 
+import { DirectionsCar, Flight, Train } from '@mui/icons-material';
 // Predefined locations
 const predefinedLocations = [
     "IIT Patna",
@@ -54,7 +55,7 @@ const JourneyForm = () => {
             setTimeout(() => {
                 navigate('/home');
             }, 1000);
-            
+
         } catch (error) {
             console.error('Error saving journey:', error);
             setSnackbarMessage('Error saving journey. Please try again.');
@@ -111,9 +112,18 @@ const JourneyForm = () => {
     return (
         <Box sx={{ padding: { xs: 2, sm: 4 }, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header />
-            <Typography variant="h5" gutterBottom align="center">
-                Add Journey Details
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: 3 }}>
+                <Box>
+                    <Flight sx={{ color: "#FF5722", fontSize: 50, marginBottom: 1 }} />
+                    <Train sx={{ color: "#2196F3", fontSize: 50, marginBottom: 1 }} />
+                    <DirectionsCar sx={{ color: "#4CAF50", fontSize: 50, marginBottom: 1 }} />
+                </Box>
+
+                <Typography variant="h5" align="center" sx={{ fontWeight: 'bold', color: '#333' }}>
+                    Plan Your Next Journey
+                </Typography>
+            </Box>
+
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -122,6 +132,7 @@ const JourneyForm = () => {
                             label="From"
                             variant="outlined"
                             value={fromLocation}
+                            required = {true}
                             onChange={handleFromLocationChange}
                         />
                         {fromSuggestions.length > 0 && (
@@ -140,6 +151,7 @@ const JourneyForm = () => {
                             label="To"
                             variant="outlined"
                             value={toLocation}
+                            required = {true}
                             onChange={handleToLocationChange}
                         />
                         {toSuggestions.length > 0 && (
@@ -159,6 +171,7 @@ const JourneyForm = () => {
                             variant="outlined"
                             type="time"
                             value={departureTime}
+                            required = {true}
                             onChange={(e) => setDepartureTime(e.target.value)}
                             InputLabelProps={{
                                 shrink: true,
@@ -175,6 +188,7 @@ const JourneyForm = () => {
                             variant="outlined"
                             type="date"
                             value={date}
+                            required = {true}
                             onChange={(e) => setDate(e.target.value)}
                             InputLabelProps={{
                                 shrink: true,
@@ -191,6 +205,7 @@ const JourneyForm = () => {
                             variant="outlined"
                             type="number"
                             value={numberOfPersons}
+                            required = {true}
                             onChange={(e) => setNumberOfPersons(e.target.value)}
                         />
                     </Grid>
@@ -200,6 +215,7 @@ const JourneyForm = () => {
                             label="Phone Number"
                             variant="outlined"
                             value={phoneNumber}
+                            required = {true}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                         />
                     </Grid>
@@ -215,14 +231,19 @@ const JourneyForm = () => {
                                 borderRadius: '8px', // Round the corners
                                 boxShadow: 2, // Add shadow for depth
                                 '&:hover': {
-                                    bgcolor: 'black', // Darker green on hover
+                                    bgcolor: 'black', // Darker color on hover
                                     boxShadow: 4, // Increase shadow on hover
                                 },
                                 transition: '0.3s', // Smooth transition for hover effect
+                                mt: 2, // Add margin top
+                                display: 'flex', // Flexbox for icon alignment
+                                alignItems: 'center', // Center icon and text vertically
                             }}
                         >
-                            Submit Journey
+                            <span style={{ marginRight: '8px' }}>📅</span> {/* Example icon */}
+                            Save Your Journey
                         </Button>
+
                     </Grid>
                 </Grid>
             </form>
