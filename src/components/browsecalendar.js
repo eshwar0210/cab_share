@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Snackbar } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Snackbar, CircularProgress } from '@mui/material';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const BrowseCalendar = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [loading, setLoading] = useState(false); // Loading state to improve transitions
 
     // Function to convert date to Indian Standard Time (IST)
     const toIST = (dateObj) => {
@@ -20,14 +21,16 @@ const BrowseCalendar = () => {
         return new Date(dateObj.getTime() + indianTimeOffset);
     };
 
+    // Fetch journeys based on the selected date
     const fetchJourneys = async (selectedDate) => {
+        setLoading(true); // Start loading
         try {
             const indianDate = toIST(selectedDate); // Convert the selected date to IST
             const formattedDate = indianDate.toISOString().split('T')[0]; // Format date to YYYY-MM-DD
 
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/journey/date/${formattedDate}`); // Adjust the endpoint accordingly
             setJourneys(response.data);
-            setJourneysByDate(prevState => ({
+            setJourneysByDate((prevState) => ({
                 ...prevState,
                 [formattedDate]: response.data,
             }));
@@ -35,15 +38,19 @@ const BrowseCalendar = () => {
             setSnackbarMessage('Error fetching journeys');
             setSnackbarSeverity('error');
             setSnackbarOpen(true);
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
+    // Fetch journeys when date changes
     useEffect(() => {
         fetchJourneys(date);
-    });
+    }, [date]); // Dependency on `date` ensures API call only when date changes
 
+    // Handle date change
     const handleDateChange = (newDate) => {
-        setDate(newDate);
+        setDate(newDate); // Update the date, which will trigger the effect
     };
 
     const hasJourneysOnDate = (day) => {
@@ -52,21 +59,15 @@ const BrowseCalendar = () => {
         return journeysByDate[formattedDate]?.length > 0; // Check if there are journeys on that date
     };
 
-
     return (
         <Box display="flex" flexDirection="column" minHeight="100vh" alignItems="center">
             <Header />
             <Box flexGrow={1} display="flex" flexDirection="column" alignItems="center" justifyContent="center" padding={4} width="100%">
-                <Typography variant="h4" align="center"  sx ={{ color : "primary.main"}} gutterBottom>
+                <Typography variant="h4" align="center" sx={{ color: 'primary.main' }} gutterBottom>
                     Events
                 </Typography>
                 {/* Calendar Section */}
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    margin="20px 0"
-                    width={{ xs: '100%', md: '50%' }} // Responsive width for calendar
-                >
+                <Box display="flex" justifyContent="center" margin="20px 0" width={{ xs: '100%', md: '50%' }}>
                     <Calendar
                         onChange={handleDateChange}
                         value={date}
@@ -90,14 +91,16 @@ const BrowseCalendar = () => {
                     />
                 </Box>
 
-                {/* Events Section */}
-                <Box width="100%" padding={2}>
-
-                    <Grid container spacing={3} justifyContent="center">
-                        {journeys.length > 0 ? (
-                            journeys.map((journey) => (
-                                <Box>
-
+                {/* Loading indicator */}
+                {loading ? (
+                    <Box display="flex" justifyContent="center" marginTop={2}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <Box width="100%" padding={2}>
+                        <Grid container spacing={3} justifyContent="center">
+                            {journeys.length > 0 ? (
+                                journeys.map((journey) => (
                                     <Grid item key={journey._id}>
                                         <Card
                                             variant="outlined"
@@ -107,8 +110,8 @@ const BrowseCalendar = () => {
                                                 borderRadius: '12px',
                                                 transition: 'transform 0.2s',
                                             }}
-                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+                                            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                                         >
                                             <CardContent>
                                                 <Typography variant="h6" style={{ display: 'flex', alignItems: 'center' }}>
@@ -118,7 +121,6 @@ const BrowseCalendar = () => {
                                                 </Typography>
                                                 <Typography>Name: {journey.name}</Typography>
                                                 <Typography>Contact: {journey.phoneNumber}</Typography>
-
                                                 <Typography variant="subtitle1" style={{ fontWeight: 'bold', color: '#1976d2' }}>
                                                     Date: {journey.date.split('T')[0]}
                                                 </Typography>
@@ -126,21 +128,20 @@ const BrowseCalendar = () => {
                                                     Time: {journey.departureTime}
                                                 </Typography>
                                                 <Typography>Persons: {journey.numberOfPersons}</Typography>
-
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                </Box>
-                            ))
-                        ) : (
-                            <Grid item xs={12}>
-                        
-                            </Grid>
-                        )}
-                    </Grid>
-                </Box>
-
+                                ))
+                            ) : (
+                                <Typography variant="subtitle1" color="textSecondary">
+                                    No journeys on this date.
+                                </Typography>
+                            )}
+                        </Grid>
+                    </Box>
+                )}
             </Box>
+
             <Snackbar
                 open={snackbarOpen}
                 autoHideDuration={3000}
