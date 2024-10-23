@@ -5,6 +5,18 @@ import Header from './header';
 import Footer from './footer';
 import axios from 'axios';
 
+// Predefined locations
+const predefinedLocations = [
+    "IIT Patna",
+    "Patna Railway Station",
+    "Pataliputra Railway Station",
+    "Rajendranagar Terminal",
+    "Danapur Railway Station",
+    "Bihta Railway Station",
+    "Ara Junction",
+    "Patna Airport",
+];
+
 const JourneyForm = () => {
     const [fromLocation, setFromLocation] = useState('');
     const [toLocation, setToLocation] = useState('');
@@ -51,33 +63,29 @@ const JourneyForm = () => {
         }
     };
 
-    const handleFromLocationChange = async (e) => {
+    const handleFromLocationChange = (e) => {
         const value = e.target.value;
         setFromLocation(value);
 
         if (value.length >= 1) {
-            try {
-                const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${value}&format=json`);
-                setFromSuggestions(response.data);
-            } catch (error) {
-                console.error('Error fetching from location suggestions:', error);
-            }
+            const filteredSuggestions = predefinedLocations.filter(location =>
+                location.toLowerCase().includes(value.toLowerCase())
+            );
+            setFromSuggestions(filteredSuggestions);
         } else {
             setFromSuggestions([]);
         }
     };
 
-    const handleToLocationChange = async (e) => {
+    const handleToLocationChange = (e) => {
         const value = e.target.value;
         setToLocation(value);
 
         if (value.length >= 1) {
-            try {
-                const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${value}&format=json`);
-                setToSuggestions(response.data);
-            } catch (error) {
-                console.error('Error fetching to location suggestions:', error);
-            }
+            const filteredSuggestions = predefinedLocations.filter(location =>
+                location.toLowerCase().includes(value.toLowerCase())
+            );
+            setToSuggestions(filteredSuggestions);
         } else {
             setToSuggestions([]);
         }
@@ -85,10 +93,10 @@ const JourneyForm = () => {
 
     const handleSuggestionClick = (suggestion, type) => {
         if (type === 'from') {
-            setFromLocation(suggestion.display_name);
+            setFromLocation(suggestion);
             setFromSuggestions([]);
         } else {
-            setToLocation(suggestion.display_name);
+            setToLocation(suggestion);
             setToSuggestions([]);
         }
     };
@@ -118,9 +126,9 @@ const JourneyForm = () => {
                         />
                         {fromSuggestions.length > 0 && (
                             <List sx={{ maxHeight: 200, overflow: 'auto' }}>
-                                {fromSuggestions.map((suggestion) => (
-                                    <ListItem button key={suggestion.place_id} onClick={() => handleSuggestionClick(suggestion, 'from')}>
-                                        <ListItemText primary={suggestion.display_name} />
+                                {fromSuggestions.map((suggestion, index) => (
+                                    <ListItem button key={index} onClick={() => handleSuggestionClick(suggestion, 'from')}>
+                                        <ListItemText primary={suggestion} />
                                     </ListItem>
                                 ))}
                             </List>
@@ -136,9 +144,9 @@ const JourneyForm = () => {
                         />
                         {toSuggestions.length > 0 && (
                             <List sx={{ maxHeight: 200, overflow: 'auto' }}>
-                                {toSuggestions.map((suggestion) => (
-                                    <ListItem button key={suggestion.place_id} onClick={() => handleSuggestionClick(suggestion, 'to')}>
-                                        <ListItemText primary={suggestion.display_name} />
+                                {toSuggestions.map((suggestion, index) => (
+                                    <ListItem button key={index} onClick={() => handleSuggestionClick(suggestion, 'to')}>
+                                        <ListItemText primary={suggestion} />
                                     </ListItem>
                                 ))}
                             </List>
