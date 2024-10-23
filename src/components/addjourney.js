@@ -22,8 +22,10 @@ const JourneyForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const userId = localStorage.getItem('uid'); // Get the UID from local storage
+        const name = localStorage.getItem('name');
         const journeyData = {
             userId,
+            name,
             fromLocation,
             toLocation,
             departureTime,

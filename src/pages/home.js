@@ -13,6 +13,9 @@ const Homepage = () => {
   const handleaddjourney = () =>{
     navigate("/add-journey");
   };
+  const handlecalendarclick = ()=>{
+    navigate("/browse-calendar");
+  };
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -47,7 +50,7 @@ const Homepage = () => {
 
           <Grid item xs={6} sm={6} md={3}>
             <Card>
-              <CardActionArea onClick={() => alert('Browse Calendar clicked')}>
+              <CardActionArea onClick={handlecalendarclick}>
                 <CardContent sx={{ textAlign: 'center' }}>
                   <CalendarTodayIcon sx={{ fontSize: 60 }} />
                   <Typography variant="h6" mt={2}>
