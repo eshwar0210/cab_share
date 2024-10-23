@@ -16,6 +16,9 @@ const Homepage = () => {
   const handlecalendarclick = ()=>{
     navigate("/browse-calendar");
   };
+  const handleeditjourney = () =>{
+    navigate("/edit-journey")
+  };
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -37,7 +40,7 @@ const Homepage = () => {
 
           <Grid item xs={6} sm={6} md={3}>
             <Card>
-              <CardActionArea onClick={() => alert('Edit Journey clicked')}>
+              <CardActionArea onClick={handleeditjourney}>
                 <CardContent sx={{ textAlign: 'center' }}>
                   <EditIcon sx={{ fontSize: 60 }} />
                   <Typography variant="h6" mt={2}>

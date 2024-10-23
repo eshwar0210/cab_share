@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Grid, Card, CardContent, Snackbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axios from 'axios';
@@ -14,7 +13,6 @@ const BrowseCalendar = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const navigate = useNavigate();
 
     // Function to convert date to Indian Standard Time (IST)
     const toIST = (dateObj) => {
@@ -42,7 +40,7 @@ const BrowseCalendar = () => {
 
     useEffect(() => {
         fetchJourneys(date);
-    }, [date]);
+    });
 
     const handleDateChange = (newDate) => {
         setDate(newDate);

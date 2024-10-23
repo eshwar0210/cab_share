@@ -9,7 +9,7 @@ import CabDrivers from './components/cabdriver';
 import JourneyForm from './components/addjourney';
 import Register from './pages/register';
 import BrowseCalendar from './components/browsecalendar';
-
+import Editjourney from './components/editjourney';
 const isAuthenticated = () => {
   return !!localStorage.getItem('authToken');
 };
@@ -32,6 +32,7 @@ function App() {
           <Route path="/cab-drivers" element={<PrivateRoute element={<CabDrivers />} />} />
           <Route path="/add-journey" element={<PrivateRoute element={<JourneyForm />} />} />
           <Route path="/browse-calendar" element={<PrivateRoute element={<BrowseCalendar />} />} />
+          <Route path="/edit-journey" element ={<PrivateRoute element={<Editjourney />}/>} />
         </Routes>
       </Container>
     </Router>
