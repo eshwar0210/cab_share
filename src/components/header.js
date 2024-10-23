@@ -101,6 +101,7 @@ const Header = () => {
                         '&:hover': {
                             color: 'blue',
                         },
+                        fontFamily : 'cursive'
                     }}
                 >
                     Cab Share
@@ -109,8 +110,8 @@ const Header = () => {
                 {/* Account Circle Icon for Profile/Logout */}
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
-                     <Typography sx={{ marginRight: 1 }}>
-                            {name}
+                     <Typography sx={{ marginRight: 1 , fontWeight: "bold"}}>
+                            Hi! {name}
                         </Typography>
 
                     {/* Info Button with Decoration */}

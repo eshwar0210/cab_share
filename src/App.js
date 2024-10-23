@@ -5,8 +5,8 @@ import './App.css';
 import Login from './pages/login';
 import Homepage from './pages/home';
 import EditProfile from './pages/EditProfile';
-
-
+import CabDrivers from './components/cabdriver';
+import JourneyForm from './components/addjourney';
 import Register from './pages/register';
 const isAuthenticated = () => {
   return !!localStorage.getItem('authToken');
@@ -25,9 +25,10 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<PrivateRoute element={<Homepage />} />} />
-          <Route path="/register" element={<Register />}  />
+          <Route path="/register" element={<Register />} />
           <Route path="/editprofile" element={<PrivateRoute element={<EditProfile />} />} />
-
+          <Route path="/cab-drivers" element={<PrivateRoute element={<CabDrivers />} />} />
+          <Route path="/add-journey" element={<PrivateRoute element={<JourneyForm />} />} />
         </Routes>
       </Container>
     </Router>
