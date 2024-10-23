@@ -49,9 +49,8 @@ const Login = () => {
             setSnackbarMessage('Login successful!');
             setSnackbarSeverity('success');
             setSnackbarOpen(true);
-
-            // Redirect to home page after successful login
             navigate('/home');
+        
         } catch (error) {
             // Handle login errors
             setSnackbarMessage(error.message);

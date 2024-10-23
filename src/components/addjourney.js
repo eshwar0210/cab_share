@@ -32,6 +32,16 @@ const JourneyForm = () => {
     const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
     const navigate = useNavigate();
 
+    const resetform = () =>{
+        setFromLocation('');
+        setToLocation('');
+        setDepartureTime('');
+        setDate('');
+        setNumberOfPersons('');
+        setPhoneNumber('');
+    
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const userId = localStorage.getItem('uid'); // Get the UID from local storage
@@ -48,13 +58,15 @@ const JourneyForm = () => {
         };
 
         try {
-            await axios.post(`${process.env.REACT_APP_BASE_URL}/journey/`, journeyData); // Adjust the endpoint accordingly
+            await axios.post(`${process.env.REACT_APP_BASE_URL}/journey/`, journeyData); 
+            resetform();
             setSnackbarMessage('Journey created successfully!');
             setSnackbarSeverity('success');
             setSnackbarOpen(true);
-            setTimeout(() => {
-                navigate('/home');
-            }, 1000);
+            
+           
+            navigate('/home');
+            
 
         } catch (error) {
             console.error('Error saving journey:', error);

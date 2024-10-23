@@ -23,6 +23,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { Autocomplete } from '@mui/material';
 import { ManageHistory } from '@mui/icons-material';
+
+import CircularProgress from '@mui/material/CircularProgress';
+
 const predefinedLocations = [
     "IIT Patna",
     "Patna Railway Station",
@@ -44,12 +47,14 @@ const EditJourney = () => {
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [journeyToDelete, setJourneyToDelete] = useState(null);
     const userId = localStorage.getItem('uid'); // Get the UID from local storage
+    const [loading, setLoading] = useState(true);
 
     // Responsive breakpoint
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
     useEffect(() => {
         const fetchJourneys = async () => {
+            setLoading(true);
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/journey/${userId}`);
                 setJourneys(response.data);
@@ -58,6 +63,9 @@ const EditJourney = () => {
                 setSnackbarMessage('Error fetching journeys. Please try again.');
                 setSnackbarSeverity('error');
                 setSnackbarOpen(true);
+            }
+            finally {
+                setLoading(false);
             }
         };
 
@@ -121,44 +129,61 @@ const EditJourney = () => {
     return (
         <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header />
-            <Box sx={{ padding: 2, paddingX: isSmallScreen ? 1 : 4 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e0f7fa', padding: 2, borderRadius: 1 }}>
-                    <ManageHistory sx={{ color: '#00796b', fontSize: 40, marginRight: 1 }} />
-                    <Typography variant="h4" sx={{ color: '#004d40', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                        Explore Your Travels
-                    </Typography>
+            {loading && ( // Add loading spinner
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minHeight: `calc(100vh - ${isSmallScreen ? '120px' : '200px'})`, // Adjust based on your layout
+                    }}
+                >
+                    <CircularProgress />
+                </Box>
+            )}
+            {!loading && ( // Only show journeys when not loading
+
+
+                <Box sx={{ padding: 2, paddingX: isSmallScreen ? 1 : 4 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e0f7fa', padding: 2, borderRadius: 1 }}>
+                        <ManageHistory sx={{ color: '#00796b', fontSize: 40, marginRight: 1 }} />
+                        <Typography variant="h4" sx={{ color: '#004d40', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>
+                            Explore Your Travels
+                        </Typography>
+                    </Box>
+
+                    <List>
+                        {journeys.map((journey) => {
+                            const formattedDate = new Date(journey.date).toLocaleDateString('en-GB').replace(/\//g, '-');
+
+                            return (
+                                <ListItem key={journey._id} sx={{ borderBottom: '1px solid #ccc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Box sx={{ flexGrow: 1 }}>
+                                        <Typography variant="body1" sx={{ display: 'block' }}>
+                                            From: {journey.fromLocation}
+                                        </Typography>
+                                        <Typography variant="body1" sx={{ display: 'block' }}>
+                                            To: {journey.toLocation}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Departure: {journey.departureTime} on {formattedDate}
+                                        </Typography>
+                                    </Box>
+                                    <Box>
+                                        <IconButton onClick={() => handleEditClick(journey)} sx={{ marginRight: 1, color: 'green' }}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => handleDeleteClick(journey)} sx={{ color: 'red' }}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Box>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
                 </Box>
 
-                <List>
-                    {journeys.map((journey) => {
-                        const formattedDate = new Date(journey.date).toLocaleDateString('en-GB').replace(/\//g, '-');
-
-                        return (
-                            <ListItem key={journey._id} sx={{ borderBottom: '1px solid #ccc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Typography variant="body1" sx={{ display: 'block' }}>
-                                        From: {journey.fromLocation}
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ display: 'block' }}>
-                                        To: {journey.toLocation}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Departure: {journey.departureTime} on {formattedDate}
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <IconButton onClick={() => handleEditClick(journey)} sx={{ marginRight: 1, color: 'green' }}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => handleDeleteClick(journey)} sx={{ color: 'red' }}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Box>
-                            </ListItem>
-                        );
-                    })}
-                </List>
-            </Box>
+            )}
 
             {/* Snackbar for notifications */}
             <Snackbar
@@ -178,9 +203,10 @@ const EditJourney = () => {
                 <DialogContent>
                     {editingJourney && (
                         <>
-                            <Box sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row', gap: 2 }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <Autocomplete
                                     options={predefinedLocations} // Use predefined locations
+                                    freeSolo // Allows users to enter custom text
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
@@ -194,10 +220,14 @@ const EditJourney = () => {
                                     onChange={(event, newValue) => {
                                         setEditingJourney({ ...editingJourney, fromLocation: newValue });
                                     }}
+                                    onInputChange={(event, newInputValue) => {
+                                        setEditingJourney({ ...editingJourney, fromLocation: newInputValue });
+                                    }}
                                 />
 
                                 <Autocomplete
                                     options={predefinedLocations} // Use predefined locations
+                                    freeSolo // Allows users to enter custom text
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
@@ -205,11 +235,15 @@ const EditJourney = () => {
                                             label="To"
                                             variant="outlined"
                                             fullWidth
+
                                         />
                                     )}
                                     value={editingJourney.toLocation}
                                     onChange={(event, newValue) => {
                                         setEditingJourney({ ...editingJourney, toLocation: newValue });
+                                    }}
+                                    onInputChange={(event, newInputValue) => {
+                                        setEditingJourney({ ...editingJourney, toLocation: newInputValue });
                                     }}
                                 />
                             </Box>
@@ -247,6 +281,7 @@ const EditJourney = () => {
                                 value={editingJourney.numberOfPersons}
                                 onChange={(e) => setEditingJourney({ ...editingJourney, numberOfPersons: e.target.value })}
                             />
+
                             <TextField
                                 margin="dense"
                                 label="Contact"
@@ -287,8 +322,12 @@ const EditJourney = () => {
             </Dialog>
 
             <Footer sx={{ mt: 'auto' }} />
+
         </Box>
+
+
     );
+
 };
 
 export default EditJourney;
