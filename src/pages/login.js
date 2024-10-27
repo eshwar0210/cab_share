@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Typography, Box, Link, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Container, TextField, IconButton, Button, InputAdornment, Typography, Box, Link, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
+
+
 
 import Footer from '../components/footer';
 
@@ -14,6 +19,10 @@ const Login = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('');
     const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
 
     // Check for token in local storage on component mount
     useEffect(() => {
@@ -50,7 +59,7 @@ const Login = () => {
             setSnackbarSeverity('success');
             setSnackbarOpen(true);
             navigate('/home');
-        
+
         } catch (error) {
             // Handle login errors
             setSnackbarMessage(error.message);
@@ -92,20 +101,20 @@ const Login = () => {
         <Container maxWidth="xs">
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100vh">
                 {/* Image added here */}
-                <img 
-                src="/cabshare.jpeg" 
-                alt="Cab Sharing" 
-                style={{
-                    width: '100%',         // Full width of the container
-                    maxWidth: '300px',      // Maximum width of the image
-                    marginBottom: '20px',   // Margin at the bottom
+                <img
+                    src="/cabshare.jpeg"
+                    alt="Cab Sharing"
+                    style={{
+                        width: '100%',         // Full width of the container
+                        maxWidth: '300px',      // Maximum width of the image
+                        marginBottom: '20px',   // Margin at the bottom
 
-                    borderRadius: '50%', // Curve on the bottom right
-                    overflow: 'hidden'      // Ensure the overflow is hidden for smooth curves
-                }} 
-            />
-            
-                <Typography variant="h4" component="h1" gutterBottom>
+                        borderRadius: '50%', // Curve on the bottom right
+                        overflow: 'hidden'      // Ensure the overflow is hidden for smooth curves
+                    }}
+                />
+
+                <Typography variant="h4" gutterBottom sx={{ fontFamily: "fantasy", fontStyle: "italic" }}>
                     Welcome
                 </Typography>
                 <form onSubmit={handleSubmit} style={{ width: '100%' }}>
@@ -120,12 +129,26 @@ const Login = () => {
                     />
                     <TextField
                         label="Password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         fullWidth
+                        variant="outlined" 
                         margin="normal"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        InputProps={{
+                            endAdornment: password && (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                     <Button
                         type="submit"
